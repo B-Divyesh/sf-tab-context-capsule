@@ -1,0 +1,30 @@
+{
+  "name": "tab-context-capsule",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:site": "vite --config vite.site.config.ts",
+    "build:extension": "wxt build",
+    "build:site": "vite build --config vite.site.config.ts",
+    "package:extension": "node scripts/package-extension.mjs",
+    "prepare:assets": "node scripts/prepare-assets.mjs",
+    "build": "npm run clean && npm run prepare:assets && npm run build:extension && npm run package:extension && npm run build:site",
+    "clean": "node scripts/clean.mjs",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "tsc --noEmit && npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/chrome": "^0.0.287",
+    "archiver": "^7.0.1",
+    "axe-core": "^4.10.2",
+    "sharp": "^0.33.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5",
+    "wxt": "^0.20.0"
+  }
+}

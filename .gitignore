@@ -3,4 +3,6 @@ dist/
 .env
 *.log
 graphify-out/
+.wxt/
+test-results/
 .DS_Store
