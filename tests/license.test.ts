@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DAY_MS, hasFreshValidVerdict, verifyUrl } from '../src/lib/license';
+import { DAY_MS, hasCachedValidVerdict, hasFreshValidVerdict, verifyUrl } from '../src/lib/license';
 
 describe('license helpers', () => {
   it('encodes license tokens in verification URLs', () => expect(verifyUrl('abc +/?')).toContain('license=abc%20%2B%2F%3F'));
@@ -8,6 +8,7 @@ describe('license helpers', () => {
     expect(hasFreshValidVerdict(JSON.stringify({ valid: true, reason: 'ok', checkedAt: now - 1000 }), now)).toBe(true);
     expect(hasFreshValidVerdict(JSON.stringify({ valid: false, reason: 'revoked', checkedAt: now }), now)).toBe(false);
     expect(hasFreshValidVerdict(JSON.stringify({ valid: true, reason: 'ok', checkedAt: now - DAY_MS - 1 }), now)).toBe(false);
+    expect(hasCachedValidVerdict(JSON.stringify({ valid: true, reason: 'ok', checkedAt: now - DAY_MS - 1 }))).toBe(true);
     expect(hasFreshValidVerdict('nope', now)).toBe(false);
   });
 });

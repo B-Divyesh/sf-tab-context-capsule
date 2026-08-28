@@ -11,6 +11,12 @@ export interface LicenseVerdict {
   checkedAt: number;
 }
 
+export function hasCachedValidVerdict(raw: string | null): boolean {
+  if (!raw) return false;
+  try { return (JSON.parse(raw) as LicenseVerdict).valid === true; }
+  catch { return false; }
+}
+
 export function verifyUrl(token: string): string {
   return `${BILLING_BASE}/products/${PRODUCT_SLUG}/verify?license=${encodeURIComponent(token)}`;
 }

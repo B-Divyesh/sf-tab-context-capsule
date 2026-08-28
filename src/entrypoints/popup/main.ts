@@ -6,7 +6,7 @@ import {
 } from '../../lib/capsules';
 import { downloadText, safeFilename } from '../../lib/download';
 import {
-  CHECKOUT_URL, DAY_MS, LICENSE_KEY, VERDICT_KEY, hasFreshValidVerdict, verifyUrl,
+  CHECKOUT_URL, DAY_MS, LICENSE_KEY, VERDICT_KEY, hasCachedValidVerdict, verifyUrl,
   type LicenseVerdict
 } from '../../lib/license';
 
@@ -34,7 +34,7 @@ void initialize();
 
 async function initialize(): Promise<void> {
   captureLicenseFromUrl();
-  state.pro = hasFreshValidVerdict(localStorage.getItem(VERDICT_KEY));
+  state.pro = hasCachedValidVerdict(localStorage.getItem(VERDICT_KEY));
   await Promise.all([loadCapsules(), loadWindowTabs()]);
   loading.hidden = true;
   renderAll();
