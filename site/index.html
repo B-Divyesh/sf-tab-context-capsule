@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Turn selected browser tabs into a named, explained, portable capsule you can close, share, and reopen." />
+    <meta name="theme-color" content="#081c25" />
+    <title>Tab Context Capsule — Stop now. Resume with the reason intact.</title>
+    <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <a class="site-brand" href="/" aria-label="Tab Context Capsule home">
+        <img src="/assets/icon.svg" width="42" height="42" alt="" />
+        <span><small>Tab Context</small>Capsule</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#route">How it works</a><a href="#fare">Conductor</a><a class="nav-ticket" href="/downloads/tab-context-capsule.zip" download>Download v1</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">A local departure board for overloaded tabs</p>
+          <h1 id="hero-title">Stop now.<br /><em>Resume with the reason intact.</em></h1>
+          <p class="hero-lede">Seal the pages that matter into a named capsule—with an explanation, an order, and the very next move. Then safely close the originals.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="/downloads/tab-context-capsule.zip" download>Download the extension</a>
+            <a class="button quiet" href="#route">See the route <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="microcopy">Chrome-compatible MV3 · No account · URLs never transmitted</p>
+        </div>
+        <figure class="poster-frame">
+          <picture>
+            <source type="image/avif" srcset="/assets/hero-poster-640.avif 640w, /assets/hero-poster-1024.avif 1024w" sizes="(max-width: 800px) 92vw, 43vw" />
+            <img src="/assets/hero-poster-640.webp" srcset="/assets/hero-poster-640.webp 640w, /assets/hero-poster-1024.webp 1024w" sizes="(max-width: 800px) 92vw, 43vw" width="640" height="960" alt="An art-deco night train carries five paper page cards along parallel rails" decoding="async" fetchpriority="high" />
+          </picture>
+          <figcaption><span>Route 01</span> Your context, made portable</figcaption>
+        </figure>
+      </section>
+
+      <section class="manifesto" aria-label="Product promise">
+        <p>Tabs preserve <strong>where.</strong></p><p>Capsules preserve <strong>why.</strong></p>
+      </section>
+
+      <section class="route" id="route" aria-labelledby="route-title">
+        <div class="section-intro"><p class="eyebrow">The three-stop line</p><h2 id="route-title">From browser noise to a clean handoff</h2><p>No summary bot. No mystery cloud. Just the small piece of human context tab managers leave behind.</p></div>
+        <ol class="route-line">
+          <li><span class="station-number">01</span><div><h3>Choose the carriages</h3><p>Select the useful tabs from your current window. Pinned and private tabs stay out by default.</p></div></li>
+          <li><span class="station-number">02</span><div><h3>Write the meaning</h3><p>Name the project, add one line per page, arrange the order, and record the next move.</p></div></li>
+          <li><span class="station-number">03</span><div><h3>Seal and depart</h3><p>Close the originals only when you choose. Reopen later, or hand off a readable Markdown or JSON ticket.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="sample" aria-labelledby="sample-title">
+        <div class="sample-copy"><p class="eyebrow">A capsule, not a pile</p><h2 id="sample-title">The next person knows where to begin.</h2><p>Every export is readable without the extension and complete enough to resume without reconstructing your train of thought.</p><ul><li>Named context</li><li>Ordered links</li><li>Page-by-page notes</li><li>One explicit next step</li></ul></div>
+        <article class="sample-ticket" aria-label="Example capsule">
+          <div class="ticket-top"><span>Capsule 0042</span><span>3 tabs</span></div>
+          <h3>Coastal erosion sources</h3>
+          <p class="next"><small>Next step</small> Compare the two shoreline datasets.</p>
+          <ol><li><span>NOAA shoreline viewer</span><small>Primary data; export 2020–25</small></li><li><span>County planning memo</span><small>Use the setback definition</small></li><li><span>Research notebook</span><small>Draft chart lives here</small></li></ol>
+        </article>
+      </section>
+
+      <section class="privacy-band" aria-labelledby="privacy-title">
+        <div class="lock-mark" aria-hidden="true"></div><div><p class="eyebrow">Private by construction</p><h2 id="privacy-title">Your route stays on your device.</h2></div><p>Capsules live in extension storage. We do not run analytics in the extension, transmit browsing URLs, or require an account. Private-window capture is a conscious per-capture opt-in.</p>
+      </section>
+
+      <section class="fare-section" id="fare" aria-labelledby="fare-title">
+        <div><p class="eyebrow">One-time Conductor ticket</p><h2 id="fare-title">The essential journey stays free.</h2><p>Capture unlimited capsules, reopen them, and import/export Markdown and JSON at no charge. Conductor is a small one-time purchase for quicker finishing touches.</p></div>
+        <div class="fare-card">
+          <p class="fare-price"><strong>$12</strong> USD · once</p>
+          <ul><li>One-click copy as Markdown</li><li>Brass and jade color tickets</li><li>Funds thoughtful local-first maintenance</li></ul>
+          <a class="button brass" href="https://api.sociobot.in/api/v1/products/tab-context-capsule/checkout">Buy Conductor — $12</a>
+          <button id="restore-toggle" class="text-button" type="button" aria-expanded="false" aria-controls="restore-panel">Already have a license?</button>
+          <form id="restore-panel" class="restore-panel" hidden>
+            <label for="license">License token</label><input id="license" name="license" type="password" autocomplete="off" required />
+            <button class="button quiet" type="submit">Verify license</button>
+          </form>
+          <div id="license-result" class="license-result" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="final-call" aria-labelledby="final-title"><p class="eyebrow">End the session on purpose</p><h2 id="final-title">Give tomorrow a clear departure point.</h2><a class="button primary" href="/downloads/tab-context-capsule.zip" download>Download Tab Context Capsule</a></section>
+    </main>
+    <footer><a class="site-brand" href="/"><img src="/assets/icon.svg" width="38" height="38" alt="" /><span><small>Tab Context</small>Capsule</span></a><p>Local-first software by the Param Factory.<br />Hero artwork generated specifically for this product.</p><nav aria-label="Legal"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-tab-context-capsule">Source</a></nav></footer>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

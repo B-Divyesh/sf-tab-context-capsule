@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Tab Context Capsule mark">
+  <rect width="128" height="128" rx="18" fill="#081c25"/>
+  <path d="M15 34h98M15 94h98" stroke="#f5bd4f" stroke-width="6"/>
+  <rect x="25" y="29" width="78" height="70" rx="35" fill="#102e38" stroke="#f5bd4f" stroke-width="6"/>
+  <path d="M39 48h50M39 64h50M39 80h50" stroke="#ff765f" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="64" cy="64" r="6" fill="#f5e8c8"/>
+</svg>
