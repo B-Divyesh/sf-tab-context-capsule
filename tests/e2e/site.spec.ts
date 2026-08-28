@@ -7,6 +7,7 @@ test('landing page has a clear install path and no serious accessibility issues'
   await page.goto('/');
   await expect(page).toHaveTitle(/Tab Context Capsule/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
+  await expect(page.getByRole('link', { name: 'Download the extension' })).toHaveAttribute('href', '/downloads/tab-context-capsule-1.0.0.zip');
   await expect(page.getByRole('link', { name: 'Download the extension' })).toHaveAttribute('download', '');
   await page.addScriptTag({ content: axe.source });
   const results = await page.evaluate(async () => {

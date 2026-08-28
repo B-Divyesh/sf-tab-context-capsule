@@ -49,7 +49,9 @@ Outputs:
 
 - `dist/extension/` — unpacked MV3 extension
 - `dist/site/` — static deploy root (`index.html` is at this exact root)
-- `dist/site/downloads/tab-context-capsule.zip` — packaged extension
+- `dist/site/downloads/tab-context-capsule-1.0.0.zip` — versioned packaged
+  extension with immutable caching (the legacy `tab-context-capsule.zip` URL
+  remains available for existing links)
 
 To test locally in Chromium, open `chrome://extensions`, enable Developer mode,
 choose **Load unpacked**, and select `dist/extension`. The packaged ZIP is for

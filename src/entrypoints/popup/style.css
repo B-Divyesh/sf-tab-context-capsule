@@ -77,13 +77,13 @@ input:disabled, select:disabled { opacity: .7; cursor: not-allowed; }
 .tab-list, .capsule-list { display: grid; gap: 10px; padding: 0; margin: 0; list-style: none; }
 .tab-ticket { position: relative; padding: 12px 10px 12px 14px; border-left: 3px solid var(--signal); background: var(--ink-raised); }
 .tab-ticket.is-pinned { border-left-color: var(--brass); }
-.tab-head { display: grid; grid-template-columns: 24px minmax(0, 1fr) 88px; align-items: start; gap: 9px; }
+.tab-head { display: grid; grid-template-columns: 24px minmax(0, 1fr) 94px; align-items: start; gap: 9px; }
 .tab-head input[type="checkbox"], .check-row input { width: 20px; height: 20px; accent-color: var(--signal); }
 .tab-copy { min-width: 0; }
 .tab-title { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--paper); font-weight: 720; }
 .tab-url { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 12px; margin-top: 3px; }
 .order-controls { display: flex; gap: 6px; justify-content: end; }
-.icon-button { width: 40px; min-height: 40px; border: 1px solid #537079; background: var(--ink); color: var(--paper); cursor: pointer; }
+.icon-button { width: 44px; min-height: 44px; border: 1px solid #537079; background: var(--ink); color: var(--paper); cursor: pointer; }
 .icon-button:disabled { opacity: .35; cursor: not-allowed; }
 .tab-note { margin: 10px 0 0 33px; width: calc(100% - 33px) !important; min-height: 42px !important; padding: 8px 9px !important; font-size: 14px; }
 .tab-ticket:has(input[type="checkbox"]:not(:checked)) .tab-note { display: none; }
