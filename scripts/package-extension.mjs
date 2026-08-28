@@ -10,6 +10,6 @@ await new Promise((resolve, reject) => {
   output.on('error', reject);
   archive.on('error', reject);
   archive.pipe(output);
-  archive.directory('dist/extension/', false);
+  archive.glob('**/*', { cwd: 'dist/extension' }, { date: new Date('1980-01-01T00:00:00Z') });
   void archive.finalize();
 });
