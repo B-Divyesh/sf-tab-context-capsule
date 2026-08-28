@@ -63,6 +63,9 @@ Run browser and accessibility checks after building:
 npm run test:e2e
 ```
 
+`test:e2e` uses `xvfb-run` so Chromium can load the unpacked MV3 extension;
+install Xvfb when running that browser suite outside the factory Linux image.
+
 ## Privacy and permissions
 
 The extension requests only `tabs` and `storage`. `tabs` reads the current

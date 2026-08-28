@@ -5,9 +5,9 @@ import { describe, expect, it } from 'vitest';
 const root = resolve(import.meta.dirname, '..');
 
 describe('release safety configuration', () => {
-  it('keeps tab-order buttons at the required 44px touch target', () => {
+  it('keeps tab-order buttons above the required 44px touch target', () => {
     const css = readFileSync(resolve(root, 'src/entrypoints/popup/style.css'), 'utf8');
-    expect(css).toMatch(/\.icon-button\s*\{[^}]*width:\s*44px;[^}]*min-height:\s*44px;/s);
+    expect(css).toMatch(/\.icon-button\s*\{[^}]*width:\s*48px;[^}]*min-height:\s*48px;/s);
   });
 
   it('ships immutable release assets and hardened static-site headers', () => {

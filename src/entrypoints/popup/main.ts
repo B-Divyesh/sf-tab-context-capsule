@@ -179,8 +179,8 @@ function renderDraftTab(tab: DraftTab): HTMLElement {
   const controls = el('div', { class: 'order-controls' });
   const visible = state.draftTabs.filter((entry) => !entry.incognito || state.privateOptIn);
   const position = visible.indexOf(tab);
-  const up = el('button', { class: 'icon-button', type: 'button', text: '↑', ariaLabel: `Move ${tab.title} up`, disabled: position === 0 }) as HTMLButtonElement;
-  const down = el('button', { class: 'icon-button', type: 'button', text: '↓', ariaLabel: `Move ${tab.title} down`, disabled: position === visible.length - 1 }) as HTMLButtonElement;
+  const up = el('button', { class: 'icon-button', type: 'button', text: '↑', ariaLabel: `Move ${tab.title} up`, dataTabId: tab.browserId, disabled: position === 0 }) as HTMLButtonElement;
+  const down = el('button', { class: 'icon-button', type: 'button', text: '↓', ariaLabel: `Move ${tab.title} down`, dataTabId: tab.browserId, disabled: position === visible.length - 1 }) as HTMLButtonElement;
   up.addEventListener('click', () => moveTab(tab, -1)); down.addEventListener('click', () => moveTab(tab, 1));
   controls.append(up, down); head.append(check, copy, controls);
   const note = el('input', { class: 'tab-note', type: 'text', value: tab.note, maxlength: '300', placeholder: 'Why does this page matter?', ariaLabel: `Note for ${tab.title}` }) as HTMLInputElement;
@@ -197,8 +197,10 @@ function moveTab(tab: DraftTab, direction: -1 | 1): void {
   const a = state.draftTabs.indexOf(tab); const b = state.draftTabs.indexOf(other);
   [state.draftTabs[a], state.draftTabs[b]] = [state.draftTabs[b], state.draftTabs[a]];
   renderCapture();
-  const buttons = captureView.querySelectorAll<HTMLButtonElement>(direction < 0 ? '[aria-label^="Move"][aria-label$="up"]' : '[aria-label^="Move"][aria-label$="down"]');
-  [...buttons].find((button) => button.getAttribute('aria-label')?.includes(tab.title))?.focus();
+  // At an endpoint the direction just used becomes disabled. Return focus to
+  // the moved carriage's remaining available order control instead, so a
+  // keyboard user never loses their place after the list is rebuilt.
+  captureView.querySelector<HTMLButtonElement>(`[data-tab-id="${tab.browserId}"]:not(:disabled)`)?.focus();
 }
 
 function updateSelectedCount(): void {
