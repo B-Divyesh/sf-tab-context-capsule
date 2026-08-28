@@ -25,6 +25,17 @@ test('mobile layout keeps the full proposition and legal routes usable', async (
   await expect(page.getByRole('img', { name: /night train/i })).toBeVisible();
   await page.goto('/privacy/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Privacy/);
+  expect(await page.evaluate(() => ({ viewport: innerWidth, content: document.documentElement.scrollWidth }))).toEqual({ viewport: 390, content: 390 });
   await page.goto('/terms/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Simple terms/);
+});
+
+test('skip links move keyboard focus to main on every public page', async ({ page }) => {
+  for (const route of ['/', '/privacy/', '/terms/']) {
+    await page.goto(route);
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('main')).toBeFocused();
+  }
 });
