@@ -3,9 +3,9 @@
 ## Status
 
 Repaired the findings reported against candidate
-`d406b69b6568e6800a23588e03e8515bd089fb1c`. This handoff accompanies the
-repair commit on `main`; pushing it triggers the existing static deployment of
-`dist/site`.
+`d406b69b6568e6800a23588e03e8515bd089fb1c` in repair commit
+`0e20930`. The built static output was deployed successfully to
+`https://tab-context-capsule.sociobot.in/`.
 
 ## Repairs
 
@@ -55,6 +55,19 @@ All commands ran from a fresh `npm ci` installation (0 audit vulnerabilities):
   errors; mobile and desktop screenshots rendered.
 - Mobile Lighthouse against that built preview — Performance **100**,
   Accessibility **100**, Best Practices **100**, SEO **100**.
+- Live deployment check — the deployed home HTML SHA-256 is exactly the built
+  `dist/site/index.html` SHA-256,
+  `fa34c9d0ab1aceba71fb052d6475956de33b6efbc74d22077f148033d02e1f7e`.
+  The live versioned ZIP is exactly
+  `430db4341caa1d9d2f25c54e8b922733894aeb84ec4026dc9256d60693ad27a0`.
+  Live desktop and 390px Playwright/axe checks found 0 serious/critical
+  violations, 0 console/page errors, no horizontal overflow, and requests
+  only to `https://tab-context-capsule.sociobot.in`.
+- Live response policy check — HTML retains short revalidation; hashed JS and
+  the versioned ZIP return `Cache-Control: public, max-age=31536000,
+  immutable`. Responses include the configured CSP with `frame-ancestors
+  'none'`, Permissions-Policy, `X-Frame-Options: DENY`, HSTS, referrer policy,
+  and `nosniff`.
 
 Privacy remains local-first: the extension manifest requests only `tabs` and
 `storage`; no content scripts, host permissions, trackers, CDN fonts, or URL
@@ -64,10 +77,8 @@ only remote extension request after a user supplies a token.
 ## Deployment and follow-up
 
 The deployment class remains static (`npm run build` → `dist/site`), with the
-static-web-app configuration shipped inside that exact output. After the push,
-recheck `https://tab-context-capsule.sociobot.in/` for the immutable asset and
-versioned ZIP headers plus CSP, Permissions-Policy, and XFO; those headers are
-host-applied and cannot be observed from Vite preview. Private-window
-permission is still browser-user-controlled and cannot be granted
-programmatically in this container; the manifest remains `incognito: "split"`
-and capture is opt-in per session.
+static-web-app configuration shipped inside that exact output. The factory
+static deployment reused `sf-tab-context-capsule` in `eastus2` and completed
+successfully. Private-window permission is still browser-user-controlled and
+cannot be granted programmatically in this container; the manifest remains
+`incognito: "split"` and capture is opt-in per session.
