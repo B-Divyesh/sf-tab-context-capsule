@@ -1,0 +1,15 @@
+{
+  "slug": "tab-context-capsule",
+  "title": "Tab Context Capsule",
+  "territory": "utilities",
+  "user": "Researchers and knowledge workers with overloaded browser sessions who need to stop, hand off, and resume a small project context without trusting a browser's fragile tab restore.",
+  "smallest_useful_product": "A browser extension that turns selected tabs into a named capsule with title, URL, optional one-line note, ordering, next step, and Markdown/JSON export; it can reopen a capsule locally.",
+  "non_goals": ["Cloud sync", "Browsing-history analytics", "LLM summarization"],
+  "monetization": "one-time",
+  "constraints": [
+    "Request minimal tab permissions",
+    "Private-window support is opt-in and never silently persisted",
+    "Never transmit browsing URLs",
+    "Exports may contain sensitive links"
+  ]
+}

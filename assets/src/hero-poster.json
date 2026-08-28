@@ -1,0 +1,9 @@
+{
+  "generator": "/opt/fleet/lib/gen-image.sh",
+  "deployment": "factory-image",
+  "date": "2026-08-28",
+  "size": "1024x1536",
+  "quality": "high",
+  "prompt": "Original vertical art-deco transit poster illustration, midnight railway platform interpreted as a browser workspace, a single geometric capsule-shaped train carriage carrying five abstract paper page cards along parallel brass rails, crisp flat screen-print shapes, subtle ink grain, strong architectural symmetry, deep petrol navy, warm ivory, signal coral, brass gold, jade accents, dramatic hard-edged pools of light, no people, no text, no letters, no numbers, no logos, no watermark, no browser brand marks, no gradients, no photorealism.",
+  "review": "Approved: coherent geometry, five abstract document cards, no brands, text artifacts, people, or misleading UI."
+}
