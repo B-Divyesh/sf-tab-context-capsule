@@ -1,84 +1,21 @@
-# Repair handoff — Tab Context Capsule
+# Verification handoff — Tab Context Capsule
 
-## Status
+## Status: FAIL
 
-Repaired the findings reported against candidate
-`d406b69b6568e6800a23588e03e8515bd089fb1c` in repair commit
-`0e20930`. The built static output was deployed successfully to
-`https://tab-context-capsule.sociobot.in/`.
+Independent QA of candidate `0a2a029933e633ad6006ab81b6511361f22f6734` against https://tab-context-capsule.sociobot.in/ is **FAIL**. The live site and ZIP exactly match the rebuilt candidate, and the core extension flow is working, but two P2 keyboard/mobile defects remain:
 
-## Repairs
+1. `/privacy/` is 408px wide at a 390px viewport because its h1 overflows the legal-content column.
+2. The public site's `Skip to main content` link changes the fragment but does not move focus into `<main>`; the next Tab returns to header navigation.
 
-- **P2 touch target:** the capture-order buttons are now a physical 48×48 CSS
-  pixels with an 8px separation (above the 44×44 requirement). The tab-head
-  track reserves their full 104px width and the 390px layout intentionally
-  places the controls on a second row, avoiding horizontal overflow.
-- **Keyboard ordering:** after a keyboard move re-renders the list, focus now
-  returns to the moved tab's still-enabled order control. This handles the
-  endpoint case where the direction just used becomes disabled.
-- **P3 cache policy:** `site/public/staticwebapp.config.json`, emitted at the
-  static deploy root, gives fingerprinted `/assets/*` files and the versioned
-  extension archive a one-year immutable cache policy. HTML remains on the
-  host's normal revalidation policy; the legacy unversioned archive remains a
-  compatibility URL.
-- **P3 response hardening:** the same static deployment configuration provides
-  CSP (`frame-ancestors 'none'`), `X-Frame-Options: DENY`, a restrictive
-  `Permissions-Policy`, `Referrer-Policy`, and `X-Content-Type-Options`.
+See [.factory/verification-3.md](verification-3.md) for exact reproduction, all passing evidence, hashes, headers, bundle sizes, privacy/request findings, and the rate-limit threshold. Product source was not modified during verification.
 
-## Regression coverage
+## Passing evidence
 
-`tests/e2e/extension.spec.ts` loads the freshly built archive as a real
-unpacked MV3 extension under Chromium/Xvfb. At desktop and 390px it verifies
-the popup has no overflow; at 390px it measures every order button at at least
-44×44 CSS pixels, runs axe with zero serious/critical findings, activates a
-move with Enter and verifies retained focus, saves a capsule to
-`chrome.storage.local`, exports Markdown, and confirms delete/Undo. The test
-captures popup console errors. `tests/release-config.test.ts` also asserts the
-48px source guard and static cache/security-header rules.
+- Fresh `npm ci`: 0 vulnerabilities; `npm run check`: TypeScript plus 9/9 Vitest tests pass; `npm run build`: passes; `npm run test:e2e`: 3/3 pass.
+- The production archive passes `unzip -t`, is reproducible at SHA-256 `430db4341caa1d9d2f25c54e8b922733894aeb84ec4026dc9256d60693ad27a0`, and exactly equals the live download. Live HTML also exactly equals this candidate build.
+- Fresh unpacked-MV3 QA exercised capture/order/note/next-step, exact-count close confirmation, local storage, Markdown/JSON export, reopen, invalid and oversized JSON recovery, valid import, delete/Undo, keyboard operation, and 390px layout with no popup errors or unsolicited remote requests.
+- Live headers include CSP/frame protection, HSTS, Permissions-Policy, referrer/nosniff policy, and immutable cache policy for hashed assets and the versioned ZIP. License verification rate-limits at request 31 with `429 Retry-After: 3`.
 
-## Verification performed
+## Next step
 
-All commands ran from a fresh `npm ci` installation (0 audit vulnerabilities):
-
-- `npm run check` — passed: TypeScript and **9/9** Vitest unit/config tests.
-- `npm run build` — passed: MV3 extension, deterministic package, and static
-  site. Extension JavaScript is 19.60 KB and CSS is 10.73 KB; site JavaScript
-  is 2.44 KB and CSS is 10.23 KB.
-- `npm run test:e2e -- --reporter=list` — passed **3/3**: desktop + 390px site,
-  site axe, and unpacked extension desktop + 390px/keyboard/axe/core-flow
-  coverage.
-- `unzip -t dist/site/downloads/tab-context-capsule-1.0.0.zip` — passed.
-  Two clean production builds produced the same archive SHA-256:
-  `430db4341caa1d9d2f25c54e8b922733894aeb84ec4026dc9256d60693ad27a0`.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/ …` against the built
-  preview — HTTP 200, title/lang/one h1/main/image alt checks passed, 0 console
-  errors; mobile and desktop screenshots rendered.
-- Mobile Lighthouse against that built preview — Performance **100**,
-  Accessibility **100**, Best Practices **100**, SEO **100**.
-- Live deployment check — the deployed home HTML SHA-256 is exactly the built
-  `dist/site/index.html` SHA-256,
-  `fa34c9d0ab1aceba71fb052d6475956de33b6efbc74d22077f148033d02e1f7e`.
-  The live versioned ZIP is exactly
-  `430db4341caa1d9d2f25c54e8b922733894aeb84ec4026dc9256d60693ad27a0`.
-  Live desktop and 390px Playwright/axe checks found 0 serious/critical
-  violations, 0 console/page errors, no horizontal overflow, and requests
-  only to `https://tab-context-capsule.sociobot.in`.
-- Live response policy check — HTML retains short revalidation; hashed JS and
-  the versioned ZIP return `Cache-Control: public, max-age=31536000,
-  immutable`. Responses include the configured CSP with `frame-ancestors
-  'none'`, Permissions-Policy, `X-Frame-Options: DENY`, HSTS, referrer policy,
-  and `nosniff`.
-
-Privacy remains local-first: the extension manifest requests only `tabs` and
-`storage`; no content scripts, host permissions, trackers, CDN fonts, or URL
-transmission were introduced. The optional license verification remains the
-only remote extension request after a user supplies a token.
-
-## Deployment and follow-up
-
-The deployment class remains static (`npm run build` → `dist/site`), with the
-static-web-app configuration shipped inside that exact output. The factory
-static deployment reused `sf-tab-context-capsule` in `eastus2` and completed
-successfully. Private-window permission is still browser-user-controlled and
-cannot be granted programmatically in this container; the manifest remains
-`incognito: "split"` and capture is opt-in per session.
+Correct the two P2 site defects, rebuild and redeploy, then perform a fresh 390px keyboard/mobile regression before release.
