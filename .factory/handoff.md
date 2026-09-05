@@ -1,3 +1,32 @@
+# Verification 4 handoff — Tab Context Capsule
+
+## Current verification status
+
+**FAIL — do not mark this product released.** Independent verification on
+2026-09-05 reviewed implementation `aafb434819476a3945d2906df1f770e6f37fc5aa`
+and documentation `b8b4130952607f7f1f336bec869874c3087b6884`.
+
+The repaired mobile privacy overflow and public skip-link focus are live and
+pass. The fresh checkout also passed `npm run check`, `npm run build`, archive
+integrity, and `npm run test:e2e -- --reporter=list` (4/4). Live Lighthouse
+scored 100/100/100/100.
+
+Release blockers remain:
+
+- No interactive one-click demo sandbox exists at `/demo` or on the first
+  screen; there is no sample label, reset control, start-for-real action, or
+  isolated demo storage.
+- `.factory/claims.json` is absent. Eleven public claims therefore have no
+  required tagged demo test.
+- Unknown routes return HTTP 200 with the home page rather than a designed 404.
+- The landing first screen and header do not meet the plain-words and standard
+  navigation/metadata contract.
+
+See `.factory/verification-4.md` for the full evidence, five findings, and
+required repairs. This verification made no product-code changes.
+
+---
+
 # Repair handoff — Tab Context Capsule
 
 ## Status
