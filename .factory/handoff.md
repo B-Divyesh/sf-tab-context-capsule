@@ -1,10 +1,30 @@
-# Repair 4 handoff — Tab Context Capsule
+# Verification 5 handoff — Tab Context Capsule
 
 ## Status
 
-**PASS for repository-controlled work.** All five findings in
-`.factory/verification-4.md` are repaired and deployed at
+**PASS.** Independent verification 5 found **0 findings** and **0 untested
+claims**. The current deployed product remains
 https://tab-context-capsule.sociobot.in/.
+
+- Implementation reviewed: `59d506adabf8ff16fa115ee0e5bf7a188a25b142`
+- Documentation/report HEAD: `926d08c6a50c8be6d5eb7e5238d83d5e9fae6168`
+- Full evidence: `.factory/verification-5.md`
+
+Fresh verification ran `npm ci`, `npm run check` (8/8), `npm run build`, ZIP
+integrity validation, the full 18/18 browser suite, and every one of the 11
+declared claim commands separately. Fresh desktop and 390px live sessions
+verified the first-screen job/audience/action, populated demo, persistent demo
+label, reset, exit, real-data isolation, accessibility, routes, privacy, and
+the designed HTTP 404. Fresh mobile Lighthouse scored 100/100/100/100.
+
+The live home, demo, privacy, terms, and extension ZIP match the rebuilt
+implementation byte-for-byte. The extension was also loaded as an unpacked
+artifact in a clean temporary profile; normal capture plus empty-selection,
+malformed/oversize JSON, valid-import recovery, delete, and Undo all passed.
+
+The only remaining item is external: Conductor checkout registration still
+returns the billing service's HTTP 404. It is outside this repository and is
+recorded as a non-finding dependency in verification 5.
 
 - Implementation and deployed product SHA:
   `59d506adabf8ff16fa115ee0e5bf7a188a25b142`
