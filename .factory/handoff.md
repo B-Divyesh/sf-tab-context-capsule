@@ -8,8 +8,9 @@ https://tab-context-capsule.sociobot.in/.
 
 - Implementation and deployed product SHA:
   `59d506adabf8ff16fa115ee0e5bf7a188a25b142`
-- Documentation evidence SHA: the report commit is recorded by the follow-up
-  bookkeeping commit.
+- Documentation evidence SHA:
+  `0fcfa4d5e0f7fca4708e36d6fc6376078f7b2f16`. The later bookkeeping commit
+  only inserts this identifier.
 - Deployment: existing `sf-tab-context-capsule` Azure Static Web App in
   `eastus2`; one static production deployment, no backend or mutable volume.
 - Deployed extension ZIP SHA-256:
