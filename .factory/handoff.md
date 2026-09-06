@@ -1,106 +1,142 @@
-# Verification 4 handoff — Tab Context Capsule
-
-## Current verification status
-
-**FAIL — do not mark this product released.** Independent verification on
-2026-09-05 reviewed implementation `aafb434819476a3945d2906df1f770e6f37fc5aa`
-and documentation `b8b4130952607f7f1f336bec869874c3087b6884`.
-
-The repaired mobile privacy overflow and public skip-link focus are live and
-pass. The fresh checkout also passed `npm run check`, `npm run build`, archive
-integrity, and `npm run test:e2e -- --reporter=list` (4/4). Live Lighthouse
-scored 100/100/100/100.
-
-Release blockers remain:
-
-- No interactive one-click demo sandbox exists at `/demo` or on the first
-  screen; there is no sample label, reset control, start-for-real action, or
-  isolated demo storage.
-- `.factory/claims.json` is absent. Eleven public claims therefore have no
-  required tagged demo test.
-- Unknown routes return HTTP 200 with the home page rather than a designed 404.
-- The landing first screen and header do not meet the plain-words and standard
-  navigation/metadata contract.
-
-See `.factory/verification-4.md` for the full evidence, five findings, and
-required repairs. This verification made no product-code changes.
-
----
-
-# Repair handoff — Tab Context Capsule
+# Repair 4 handoff — Tab Context Capsule
 
 ## Status
 
-All release-blocking findings in `.factory/verification-3.md` for candidate
-`0a2a029933e633ad6006ab81b6511361f22f6734` are repaired in product commit
-`aafb434819476a3945d2906df1f770e6f37fc5aa`. The static build was deployed to
-`https://tab-context-capsule.sociobot.in/` through the configured factory
-deployment (`sf-tab-context-capsule`, eastus2).
+**PASS for repository-controlled work.** All five findings in
+`.factory/verification-4.md` are repaired and deployed at
+https://tab-context-capsule.sociobot.in/.
 
-## Repairs and regression coverage
+- Implementation and deployed product SHA:
+  `59d506adabf8ff16fa115ee0e5bf7a188a25b142`
+- Documentation evidence SHA: the report commit is recorded by the follow-up
+  bookkeeping commit.
+- Deployment: existing `sf-tab-context-capsule` Azure Static Web App in
+  `eastus2`; one static production deployment, no backend or mutable volume.
+- Deployed extension ZIP SHA-256:
+  `6aad32a59e98d1333c501c6f9460e6662172a7600f0b142ca0d81bddf0183244`
 
-- **390px privacy overflow:** the legal-page heading now uses a narrow-screen
-  type scale that keeps the longest word inside the 350px content column. The
-  Playwright regression asserts `innerWidth === documentElement.scrollWidth ===
-  390` on `/privacy/`; live Chromium also measured the body and document at
-  exactly 390px.
-- **Skip-link focus:** every public `<main id="main">` is now a programmatic
-  focus target with `tabindex="-1"`. The Playwright regression visits `/`,
-  `/privacy/`, and `/terms/`, presses Tab then Enter, and asserts that focus
-  moves from the skip link to `<main>` on each route. The same sequence passed
-  live at desktop and 390px.
+## Repairs
 
-No extension behavior, permissions, storage, paid-feature boundary, visual
-direction, or researched scope changed.
+### One-click isolated demo
 
-## Verification performed
+The first screen now leads with **Try it with sample data**. `/demo/` opens a
+populated capsule workbench with realistic coastal-research output and urban
+heat sample tabs. It supports capture, notes, order, private-sample opt-in,
+close confirmation, reopen, Markdown/JSON export, JSON import, delete, reset,
+and **Start for real**.
+
+The banner remains visible while scrolling and says **Demo — sample data,
+nothing is saved**. Demo persistence is limited to
+`demo:tab-context-capsule:capsules:v1`. The isolation test seeds a non-demo
+sentinel, changes and exits the demo, and proves the sentinel is unchanged.
+The same reset/exit behavior passed cold on the live phone route. See
+`.factory/demo.md`.
+
+### Declared, outcome-tested claims
+
+`.factory/claims.json` declares the 11 public claims identified by independent
+verification. Each has exactly one `@claim:<id>` Playwright test and its own
+command. All 11 commands passed separately after the documented clean setup.
+
+The tagged tests exercise the real unpacked extension for capture, confirmed
+closing, Markdown, JSON round-trip, request privacy, no-account operation, the
+free core, and daily token verification. The demo-specific tests exercise
+namespace isolation and per-capture private-sample behavior. Tests inspect
+downloads, extension storage, tab state, network requests, and restored data;
+they do not assert implementation strings.
+
+### Real 404, first-screen copy, and site structure
+
+The SPA fallback was removed. The deployment config now rewrites host 404s to a
+designed `404.html` while preserving HTTP 404. Live
+`/does-not-exist-59d506a` returns 404 with the page title
+**Page not found — Tab Context Capsule**, a clear explanation, and home/demo
+actions.
+
+The first screen now says **Save selected tabs with their purpose**, names
+researchers and knowledge workers, and shows the sample action plus its result
+before scrolling at 390×844 and desktop sizes. Metaphor headings were replaced
+with task names in the public site and extension. The copy audit and terminology
+table are in `.factory/copy-audit.md`.
+
+Every public route has a route-specific title, description, canonical link,
+Open Graph and Twitter metadata, SVG favicon, 180px touch icon, one h1, main
+landmark, standard header, and footer build identifier. The original poster now
+also produces a 1200×630 social card. The sitemap includes the demo.
+
+## Verification
+
+Clean setup and repository gates:
 
 - `npm ci` — passed; 270 packages audited, 0 vulnerabilities.
-- `npm run check` — passed; TypeScript plus **9/9** Vitest tests.
-- `npm run build` — passed twice; emitted `dist/extension`, `dist/site`, and
-  the versioned package. Both builds produced ZIP SHA-256
-  `430db4341caa1d9d2f25c54e8b922733894aeb84ec4026dc9256d60693ad27a0`.
-- `unzip -t dist/site/downloads/tab-context-capsule-1.0.0.zip` — passed with no
-  archive errors.
-- `npm run test:e2e -- --reporter=list` — passed **4/4**. This includes the
-  exact two regressions, desktop and 390px site behavior, home axe coverage,
-  and a real unpacked MV3 extension test for 44px controls, keyboard ordering,
-  local persistence, Markdown export, and delete/Undo.
-- `/opt/fleet/lib/verify-url.sh` — passed against the local build and the live
-  site: HTTP 200, correct title/lang, one h1, main landmark, complete image alt
-  coverage, and zero console/page errors.
-- Playwright axe and request sweeps on `/`, `/privacy/`, and `/terms/` at
-  1366px and 390px — **0 serious/critical findings**, no console errors, no
-  horizontal overflow, and only same-origin site requests. Reduced-motion
-  mode had no meaningful animation.
-- Mobile Lighthouse — local and live scores were **100 Performance, 100
-  Accessibility, 100 Best Practices, 100 SEO**. Live FCP was 0.9s, LCP 1.4s,
-  TBT 60ms, and CLS 0.
-- Budgets — extension JS 19,603 B / CSS 10,729 B; site JS 2,440 B / CSS
-  10,279 B; mobile hero AVIF 32,099 B / WebP 57,800 B.
-- Live identity — built and live home HTML both hash to
-  `3c5112db6aeca1b1b7321d9aab0a9c0be2f7d21fd728cb3d7c388d61fb192655`;
-  built and live privacy HTML both hash to
-  `2b26402f3619f0ccea973d547a2d09dcd3b0c9304154e289920f6dd0401c6d07`;
-  built and live ZIP hashes match the package hash above.
-- Live response policy — HTML uses short revalidation; hashed assets and the
-  versioned ZIP use `public, max-age=31536000, immutable`. CSP includes
-  `frame-ancestors 'none'`; HSTS, `X-Frame-Options: DENY`, Permissions-Policy,
-  referrer policy, and `nosniff` are present. License verification returned 200
-  for requests 1–30 and 429 on request 31 with `Retry-After: 4`.
+- `npm run check` — passed; TypeScript and 8/8 Vitest tests.
+- `npm run build` — passed; emitted `dist/extension`, `dist/site`, the
+  demo, 404 document, metadata assets, and both ZIP URLs.
+- A second build produced the same versioned ZIP SHA-256 shown above.
+- `unzip -t dist/site/downloads/tab-context-capsule-1.0.0.zip` — passed.
+- `npm run test:e2e -- --reporter=list` — 18/18 passed.
+- Every one of the 11 commands in `.factory/claims.json` passed separately.
 
-The artifact remains a WXT TypeScript MV3 browser extension with a static site.
-PWA service-worker offline/update and library consumer-install checks do not
-apply. The extension package was instead integrity-tested and loaded as a real
-unpacked extension; without a supplied license it makes no remote request.
+Browser, accessibility, privacy, and performance:
 
-## Known external gap
+- The factory `verify-url.sh` passed locally and live: HTTP 200, title,
+  `lang=en`, one h1, main, complete image alt coverage, and zero normal-route
+  console errors.
+- Playwright axe found 0 serious/critical issues on home, demo, privacy, terms,
+  and the unpacked popup. Fresh live privacy checks passed at desktop and
+  390px.
+- Skip-link focus passed on home, demo, privacy, terms, and 404. The 390px
+  routes have no horizontal overflow. Demo and extension controls retain the
+  44px touch target baseline. Reduced motion disables smooth scrolling and
+  shortens motion.
+- Fresh live phone and desktop contexts saw the correct job, audience, and
+  sample action before scrolling. Demo seed, change, reset, sticky label, and
+  real-data sentinel checks passed in both.
+- Normal live flows requested only the product origin. The deliberate 404
+  navigation produces the browser's expected failed-resource console message;
+  the page itself is complete and is correctly classified as a 404.
+- Live Lighthouse mobile reported 100 Performance, 100 Accessibility, 100 Best
+  Practices, and 100 SEO; FCP 0.9s, LCP 1.4s, TBT 0ms, CLS 0. Lighthouse then
+  emitted its known `TARGET_CRASHED` warning while collecting the
+  `FullPageScreenshot` artifact, after the scores and timings were written.
+- Site JS is 12.59 KB uncompressed across the shared/demo/home chunks; site CSS
+  is 16.33 KB; extension JS is 20.16 KB and CSS is 10.73 KB. The mobile hero is
+  32.10 KB AVIF / 57.80 KB WebP.
+- Built and live home, demo, privacy, terms, 404, and ZIP hashes matched exactly.
+  Hashed assets and the versioned ZIP return one-year immutable caching.
+  CSP/frame protection, HSTS, Permissions-Policy, referrer policy, and
+  `nosniff` are live.
 
-The existing production checkout URL currently returns HTTP 404 with
-`{"error":"enabled factory product"}`. The source still uses the required
-Sociobot billing URL, and license verification/rate limiting is healthy. The
-repository contains no billing-registration command or credential, so changing
-the external product's enabled state was outside this source/deployment repair.
-Private-window permission also remains browser-user-controlled and cannot be
-granted programmatically in this container; the manifest remains
-`incognito: "split"` and capture remains opt-in per session.
+## Earlier findings
+
+| Finding | Current disposition |
+| --- | --- |
+| 40px popup order controls | Fixed earlier; live candidate retains 48×48px controls and browser measurement passes. |
+| Missing immutable caching | Fixed earlier; confirmed live on hashed assets and versioned ZIP. |
+| Missing CSP/frame/permissions headers | Fixed earlier; confirmed live. |
+| 390px privacy overflow | Fixed earlier; still measures 390px content at a 390px viewport. |
+| Skip link did not focus main | Fixed earlier; expanded regression now covers every public route including demo and 404. |
+| No one-click demo | Fixed and verified live with reset, exit, persistent label, and namespace isolation. |
+| No claims registry/tests | Fixed; 11/11 declared commands pass separately. |
+| Unknown routes returned home/200 | Fixed; live unknown route returns designed HTTP 404. |
+| First screen did not state job/audience/action | Fixed and checked cold on phone and desktop. |
+| Metadata/header incomplete | Fixed across every route. |
+
+## Known external dependency
+
+The public Conductor offer remains $12 USD as a one-time purchase and the paid
+features remain intact. The production checkout endpoint still returns HTTP 404
+with the billing service's enabled-product error. Billing registration belongs
+to the separate operator and was not changed. License verification is live and
+returns a structured invalid verdict for an invalid token; the tagged test
+verifies the extension's successful fixture path and daily request cache.
+
+Public registration metadata is in
+`/work/.evidence/billing-offer.json`. Browser-store signing/publication is
+also outside this repository. Private-window extension permission remains a
+browser-user-controlled setting; the manifest stays `incognito: "split"`, and
+the per-capture choice is never persisted.
+
+This is a static site plus a local MV3 extension. Product-backend health,
+tenancy, server rate limits, SQLite restart persistence, PWA service-worker
+updates, and library/CLI consumer installation do not apply.
