@@ -92,14 +92,14 @@ function showRoute(): void {
 function renderCapture(): void {
   captureView.replaceChildren();
   captureView.append(
-    el('p', { class: 'station-label', text: 'Departure · Current window' }),
-    heading('capture-title', 'Seal the useful context'),
-    el('p', { class: 'lede', text: 'Choose the pages that matter, write down why, then close the noise with confidence.' })
+    el('p', { class: 'station-label', text: 'Current browser window' }),
+    heading('capture-title', 'Capture current tabs'),
+    el('p', { class: 'lede', text: 'Choose useful pages, add why each matters, and record the next step.' })
   );
   if (state.loadError) captureView.append(el('div', { class: 'error-panel', role: 'alert', text: state.loadError }));
   if (!state.draftTabs.length) {
     const empty = el('div', { class: 'empty-state' });
-    empty.append(el('div', { class: 'empty-mark', ariaHidden: 'true' }), el('h3', { text: 'No web tabs at this station' }), el('p', { text: 'Open a regular web page in this window, then reopen the extension.' }));
+    empty.append(el('div', { class: 'empty-mark', ariaHidden: 'true' }), el('h3', { text: 'No web tabs found' }), el('p', { text: 'Open a regular web page in this window, then reopen the extension.' }));
     captureView.append(empty);
     return;
   }
@@ -121,7 +121,7 @@ function renderCapture(): void {
     form.append(field('capsule-color', 'Ticket color ', select, true));
   }
 
-  form.append(el('p', { class: 'section-rule', text: 'Carriages · tabs' }));
+  form.append(el('p', { class: 'section-rule', text: 'Selected tabs' }));
   const selectRow = el('div', { class: 'select-row' });
   const selectedCount = state.draftTabs.filter((tab) => tab.selected && (!tab.incognito || state.privateOptIn)).length;
   selectRow.append(el('span', { id: 'selected-count', text: `${selectedCount} selected` }));
@@ -158,7 +158,7 @@ function renderCapture(): void {
   closeLabel.append(closeInput, closeText);
   form.append(closeLabel);
   const buttons = el('div', { class: 'button-row' });
-  const save = el('button', { class: 'button primary', type: 'submit', text: 'Seal capsule' });
+  const save = el('button', { class: 'button primary', type: 'submit', text: 'Save capsule' });
   const library = el('button', { class: 'button', type: 'button', text: 'View library' });
   library.addEventListener('click', () => navigate('library'));
   buttons.append(save, library);
@@ -240,10 +240,10 @@ async function saveDraft(event: SubmitEvent): Promise<void> {
 
 function renderLibrary(): void {
   libraryView.replaceChildren();
-  libraryView.append(el('p', { class: 'station-label', text: 'Arrivals · On this device' }), heading('library-title', 'Capsule library'), el('p', { class: 'lede', text: 'Reopen the route, or detach a portable ticket for someone else.' }));
+  libraryView.append(el('p', { class: 'station-label', text: 'Saved on this device' }), heading('library-title', 'Capsule library'), el('p', { class: 'lede', text: 'Reopen saved tabs or export the context for another person.' }));
   if (!state.capsules.length) {
     const empty = el('div', { class: 'empty-state' });
-    empty.append(el('div', { class: 'empty-mark', ariaHidden: 'true' }), el('h3', { text: 'The platform is clear' }), el('p', { text: 'Your first saved context will wait here—even after the original tabs are gone.' }));
+    empty.append(el('div', { class: 'empty-mark', ariaHidden: 'true' }), el('h3', { text: 'No saved capsules' }), el('p', { text: 'Save a browser project to see it here after the original tabs are gone.' }));
     const action = el('button', { class: 'button primary', type: 'button', text: 'Capture current tabs' });
     action.addEventListener('click', () => navigate('capture')); empty.append(action); libraryView.append(empty);
   } else {
@@ -322,7 +322,7 @@ async function importBundle(file: HTMLInputElement): Promise<void> {
 
 function renderUnlock(): void {
   unlockView.replaceChildren();
-  unlockView.append(el('p', { class: 'station-label', text: 'Conductor class · One-time' }), heading('unlock-title', 'A faster handoff'), el('p', { class: 'lede', text: 'The complete capture, reopen, Markdown, JSON, and import journey is free. Conductor adds finishing conveniences.' }));
+  unlockView.append(el('p', { class: 'station-label', text: 'Conductor · One-time purchase' }), heading('unlock-title', 'Add paid shortcuts'), el('p', { class: 'lede', text: 'Capture, reopen, Markdown and JSON export, and JSON import stay free. Conductor adds two optional shortcuts.' }));
   const fare = el('div', { class: 'fare-card' });
   const status = el('p', { class: `license-state${state.pro ? ' is-valid' : ''}`, text: state.pro ? '● Conductor unlocked on this device' : '○ Free ticket active' });
   fare.append(status, el('div', { class: 'fare', text: '$12 ' }));
@@ -375,7 +375,7 @@ async function refreshLicense(force = false): Promise<void> {
     localStorage.setItem(VERDICT_KEY, JSON.stringify(verdict)); state.pro = data.valid; renderAll();
     showToast(data.valid ? 'Conductor restored on this device.' : 'That license is not active. Check the token or buy a new license.');
   } catch {
-    if (force) showToast('License verification is offline. Your free features still work; try again when connected.');
+    if (force) showToast('License verification is offline. Free features still work; try again when connected.');
   }
 }
 

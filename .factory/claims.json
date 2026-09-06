@@ -1,0 +1,79 @@
+[
+  {
+    "id": "capture-context",
+    "claim": "Save selected tabs with a name, note, order, and next step.",
+    "where": "landing page, demo, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:capture-context\"",
+    "sandbox": "fresh unpacked extension profile capturing two pages opened from the demo origin"
+  },
+  {
+    "id": "close-by-choice",
+    "claim": "Original tabs close only after the user chooses and confirms.",
+    "where": "landing page, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:close-by-choice\"",
+    "sandbox": "fresh unpacked extension profile; compare open demo-origin pages before an unchecked save and after a checked, confirmed save"
+  },
+  {
+    "id": "markdown-export",
+    "claim": "Export a capsule as readable Markdown.",
+    "where": "landing page, demo, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:markdown-export\"",
+    "sandbox": "fresh unpacked extension profile with demo-origin tabs; inspect the downloaded Markdown contents"
+  },
+  {
+    "id": "json-roundtrip",
+    "claim": "Export and import a lossless JSON capsule backup.",
+    "where": "landing page, demo, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:json-roundtrip\"",
+    "sandbox": "fresh unpacked extension profile; export, delete, import, and deep-compare the restored capsule"
+  },
+  {
+    "id": "local-storage",
+    "claim": "Capsules stay in local extension storage, and demo data uses a separate demo namespace.",
+    "where": "landing facts, demo banner, privacy page, README",
+    "test": "npm run test:e2e -- --grep \"@claim:local-storage\"",
+    "sandbox": "fresh browser context with a real-data sentinel; save and leave the demo, then inspect browser storage"
+  },
+  {
+    "id": "no-url-transmission",
+    "claim": "The extension uses no cloud sync and does not transmit capsule URLs, names, notes, or exports.",
+    "where": "landing privacy section, privacy page, README",
+    "test": "npm run test:e2e -- --grep \"@claim:no-url-transmission\"",
+    "sandbox": "fresh unpacked extension profile; record every request while capturing demo-origin tabs"
+  },
+  {
+    "id": "no-account-analytics",
+    "claim": "The extension requires no account, makes no analytics request, and has no content scripts or host permissions.",
+    "where": "landing facts, privacy page, README",
+    "test": "npm run test:e2e -- --grep \"@claim:no-account-analytics\"",
+    "sandbox": "fresh unpacked extension profile; complete capture without authentication and inspect requests"
+  },
+  {
+    "id": "private-opt-in",
+    "claim": "Private tabs are excluded by default; inclusion is per capture and is not remembered.",
+    "where": "landing how-it-works and privacy sections, demo, privacy page, README",
+    "test": "npm run test:e2e -- --grep \"@claim:private-opt-in\"",
+    "sandbox": "fresh demo state with the bundled private sample tab; capture once and inspect the reset choice"
+  },
+  {
+    "id": "free-core",
+    "claim": "Capture, reopen, Markdown and JSON export, and JSON import work without a paid license.",
+    "where": "landing pricing, terms, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:free-core\"",
+    "sandbox": "fresh unpacked extension profile with no license key and demo-origin tabs"
+  },
+  {
+    "id": "conductor-offer",
+    "claim": "Conductor costs $12 USD once and adds one-click Markdown copy plus brass and jade capsule colors.",
+    "where": "landing pricing, terms, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:conductor-offer\"",
+    "sandbox": "fresh browser context entering through the demo and inspecting the public offer"
+  },
+  {
+    "id": "license-check",
+    "claim": "License verification sends only the license token, and automatic checks run at most once per day.",
+    "where": "privacy page, extension, README",
+    "test": "npm run test:e2e -- --grep \"@claim:license-check\"",
+    "sandbox": "fresh unpacked extension profile with a fixture verification response; inspect request fields and repeat reloads"
+  }
+]

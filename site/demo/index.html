@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#081c25" />
+    <meta name="description" content="Try Tab Context Capsule with an isolated sample research project. Reset it at any time without changing real capsule data." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Demo — Tab Context Capsule" />
+    <meta property="og:description" content="Try an isolated sample capsule without changing real data." />
+    <meta property="og:url" content="https://tab-context-capsule.sociobot.in/demo/" />
+    <meta property="og:image" content="https://tab-context-capsule.sociobot.in/assets/social-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo — Tab Context Capsule" />
+    <meta name="twitter:description" content="Try an isolated sample capsule without changing real data." />
+    <meta name="twitter:image" content="https://tab-context-capsule.sociobot.in/assets/social-card.png" />
+    <title>Demo — Tab Context Capsule</title>
+    <link rel="canonical" href="https://tab-context-capsule.sociobot.in/demo/" />
+    <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header"><a class="site-brand" href="/" aria-label="Tab Context Capsule home"><img src="/assets/icon.svg" width="42" height="42" alt="" /><span><small>Tab Context</small>Capsule</span></a><nav aria-label="Main navigation"><a href="/">Home</a><a href="/demo/" aria-current="page">Demo</a><a href="/privacy/">Privacy</a><a class="nav-ticket" href="/downloads/tab-context-capsule-1.0.0.zip" download>Download v1</a></nav></header>
+    <aside class="demo-banner" aria-label="Demo status">
+      <strong>Demo — sample data, nothing is saved</strong>
+      <span>Only a separate <code>demo:</code> browser-storage key is used.</span>
+      <div><button class="text-button" id="reset-demo" type="button">Reset demo</button><a class="button compact" id="start-real" href="/downloads/tab-context-capsule-1.0.0.zip" download>Start for real</a></div>
+    </aside>
+    <main id="main" class="demo-main" tabindex="-1">
+      <div class="demo-intro"><p class="eyebrow">Interactive sample</p><h1>Try a saved research capsule</h1><p>Review a realistic capsule, export it, or save another one from the sample tabs.</p></div>
+      <div class="demo-workbench">
+        <section class="demo-panel" aria-labelledby="capture-sample-title">
+          <div class="panel-heading"><div><p class="eyebrow">Sample browser window</p><h2 id="capture-sample-title">Capture sample tabs</h2></div><span id="sample-tab-count" class="count-ticket"></span></div>
+          <form id="demo-capture-form">
+            <div class="demo-fields">
+              <label class="demo-field" for="demo-name"><span>Capsule name</span><input id="demo-name" name="name" value="Urban heat policy sources" maxlength="120" required /></label>
+              <label class="demo-field" for="demo-next"><span>Next step</span><input id="demo-next" name="next" value="Check which cooling targets have funding." maxlength="300" /></label>
+            </div>
+            <label class="demo-check private-demo-choice"><input id="include-private" type="checkbox" /><span>Include the private sample tab this time<small>This choice resets after each capture.</small></span></label>
+            <ol id="demo-tabs" class="demo-tab-list" aria-label="Sample tabs in capsule order"></ol>
+            <label class="demo-check"><input id="close-samples" type="checkbox" /><span>Close selected sample tabs after saving<small>You will confirm the exact number first.</small></span></label>
+            <button class="button primary" type="submit">Save sample capsule</button>
+          </form>
+        </section>
+        <section class="demo-panel saved-panel" aria-labelledby="saved-sample-title">
+          <div class="panel-heading"><div><p class="eyebrow">Sample output</p><h2 id="saved-sample-title">Saved capsules</h2></div><span id="capsule-count" class="count-ticket"></span></div>
+          <div id="demo-capsules" class="demo-capsules"></div>
+          <div class="demo-import">
+            <label class="button quiet file-label">Import sample JSON<input id="demo-import" type="file" accept="application/json,.json" /></label>
+            <button id="export-all-demo" class="button quiet" type="button">Export all JSON</button>
+          </div>
+        </section>
+      </div>
+      <p id="demo-status" class="demo-status" role="status" aria-live="polite">The sample is ready. Real extension data has not been read or changed.</p>
+    </main>
+    <footer><a class="site-brand" href="/"><img src="/assets/icon.svg" width="38" height="38" alt="" /><span><small>Tab Context</small>Capsule</span></a><p>Save selected tabs with notes and a next step.<br />Built by Param Factory · v1.0.0 · build 2026.09.06</p><nav aria-label="Footer"><a href="/demo/" aria-current="page">Demo</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></footer>
+    <script type="module" src="/demo.ts"></script>
+  </body>
+</html>
+

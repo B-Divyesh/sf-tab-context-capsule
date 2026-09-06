@@ -76,6 +76,12 @@ tab metadata stacks and secondary actions become a two-column ticket grid. The
 landing site moves its rail diagram below the proposition and collapses the
 three-step route vertically. Nothing depends on hover.
 
+The interactive demo uses the same ordered-track grammar in a two-column
+workbench. At phone widths, capture appears before saved output so the sample
+follows the extension's real task order. A brass-edged sticky banner identifies
+the isolated sample at every scroll position. Demo cards use warm timetable
+paper, while editable sample tabs remain on midnight enamel surfaces.
+
 ## Asset plan and provenance
 
 The landing hero uses one original generated poster illustration: a stylized
@@ -100,6 +106,9 @@ no photorealism.”
   image or third-party copyrighted character/brand used.
 - Source prompt and generation metadata live beside the selected PNG in
   `assets/src/hero-poster.json`.
+- `assets/social-card.png` is a build-time 1200×630 crop of the same original
+  poster. `assets/apple-touch-icon.png` is rendered from the hand-authored
+  product SVG. Neither introduces a third-party asset.
 
 Hand-authored SVG marks (capsule lozenge, rails, arrows) are original and use the
 same geometric vocabulary. Generated-imagery disclosure appears in the footer.

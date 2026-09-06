@@ -1,0 +1,2 @@
+Save selected browser tabs with notes, order, and a next step, then reopen or export the project.
+

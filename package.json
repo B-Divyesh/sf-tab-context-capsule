@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "wxt",
     "dev:site": "vite --config vite.site.config.ts",
+    "preview:site": "node scripts/serve-site.mjs",
     "build:extension": "wxt build",
     "build:site": "vite build --config vite.site.config.ts",
     "package:extension": "node scripts/package-extension.mjs",

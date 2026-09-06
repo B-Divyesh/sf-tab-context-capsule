@@ -1,84 +1,101 @@
 # Tab Context Capsule
 
-Tab Context Capsule is a local-first browser extension for researchers and
-knowledge workers who need to stop a project without losing why its tabs were
-open. Select tabs from the current window, name the context, add a note to each
-page and a next step, then safely close the originals. Capsules can be reopened
-or exported as readable Markdown and lossless JSON.
+Save selected browser tabs with their notes, order, and a next step. Reopen the
+project later or export it for another person.
 
-The product site is planned for
-[tab-context-capsule.sociobot.in](https://tab-context-capsule.sociobot.in).
+The extension is for researchers and knowledge workers who need to close a
+browser project without losing why each page mattered. It uses local extension
+storage and requires no account.
+
+Try the isolated sample at
+[tab-context-capsule.sociobot.in/demo/](https://tab-context-capsule.sociobot.in/demo/).
+The demo uses only `demo:tab-context-capsule:capsules:v1`; **Reset demo** and
+**Start for real** remove that sample namespace.
 
 ## What ships
 
-- Chrome-compatible MV3 extension built with WXT and TypeScript.
-- Local capsule library with ordering, notes, next steps, reopen, confirmed
-  close, delete/undo, Markdown/JSON export, and validated JSON import.
-- Private tabs excluded unless explicitly included for the current capture;
-  the preference is never persisted.
-- Responsive static product, privacy, and terms pages.
-- Optional $12 one-time Conductor license via the Sociobot billing API. All
-  capture, reopen, import, and export features remain free.
+- A Chrome-compatible MV3 extension built with WXT and TypeScript.
+- Capture with tab selection, ordering, page notes, a next step, and confirmed
+  closing of original tabs.
+- A local capsule library with reopen, Markdown export, JSON export/import,
+  validated recovery, delete, and Undo.
+- Private tabs excluded by default. Inclusion is per capture and is not
+  remembered.
+- A responsive product site with an isolated demo, privacy and terms pages, and
+  a designed HTTP 404 page.
+- An optional $12 USD one-time Conductor license. It adds one-click Markdown
+  copy and brass and jade capsule colors. The free core remains available
+  without a license.
 
-Capsules and browsing URLs never leave the browser. The only runtime request
-made by the extension is an optional license-token verification; no capsule
-data is attached.
+The extension does not transmit capsule URLs, names, notes, or exports. It has
+no account, analytics, advertising SDK, content scripts, or host permissions.
+Its only optional remote request sends a user-provided license token to the
+Sociobot verification endpoint. Automatic checks run at most once per day.
+
+All public product claims and their outcome tests are listed in
+[.factory/claims.json](.factory/claims.json). Demo isolation is documented in
+[.factory/demo.md](.factory/demo.md).
 
 ## Develop
 
-Requirements: Node.js 20+ and npm.
+Requirements: Node.js 20+, npm, and Xvfb for headed extension browser tests on
+Linux. Playwright 1.58.2 is pinned; the factory image supplies its Chromium.
 
 ```sh
 npm ci
 npm run dev          # WXT extension development
-npm run dev:site     # product site at the printed local URL
-npm test             # unit tests
-npm run check        # TypeScript + unit tests
+npm run dev:site     # product site
+npm test             # unit and release-config tests
+npm run check        # TypeScript plus unit tests
 ```
 
-## Build and install
+## Build and test
 
-The reproducible factory build command is:
+Run the clean release setup:
 
 ```sh
 npm ci
+npm run check
 npm run build
+npm run test:e2e -- --reporter=list
 ```
 
-Outputs:
+Then run every command in `.factory/claims.json`. Each command selects exactly
+one `@claim:<id>` browser test.
 
-- `dist/extension/` — unpacked MV3 extension
-- `dist/site/` — static deploy root (`index.html` is at this exact root)
-- `dist/site/downloads/tab-context-capsule-1.0.0.zip` — versioned packaged
-  extension with immutable caching (the legacy `tab-context-capsule.zip` URL
-  remains available for existing links)
+Build output:
 
-To test locally in Chromium, open `chrome://extensions`, enable Developer mode,
-choose **Load unpacked**, and select `dist/extension`. The packaged ZIP is for
-distribution; browser-store signing is handled outside this repository.
+- `dist/extension/` — unpacked MV3 extension.
+- `dist/site/` — static deploy root.
+- `dist/site/downloads/tab-context-capsule-1.0.0.zip` — deterministic,
+  versioned extension package.
 
-Run browser and accessibility checks after building:
+Open `chrome://extensions`, enable Developer mode, choose **Load unpacked**,
+and select `dist/extension`. The packaged ZIP is unsigned; browser-store
+signing is handled outside this repository.
+
+Preview the production static output after building:
 
 ```sh
-npm run test:e2e
+npm run preview:site
 ```
 
-`test:e2e` uses `xvfb-run` so Chromium can load the unpacked MV3 extension;
-install Xvfb when running that browser suite outside the factory Linux image.
+The local preview applies a real 404 response for unknown paths, matching the
+production route outcome. Deploy `dist/site/` through the factory's durable
+`sf-tab-context-capsule` static-site configuration. This repository does not
+change DNS, billing registration, or shared infrastructure.
 
 ## Privacy and permissions
 
-The extension requests only `tabs` and `storage`. `tabs` reads the current
-window when the popup is opened and creates tabs when a capsule is reopened.
-`storage` keeps capsules locally. There are no content scripts, trackers,
-remote fonts, or browsing-history analytics. Review [the privacy policy](site/privacy/index.html)
-and [terms](site/terms/index.html).
+The manifest requests only `tabs` and `storage`. `tabs` reads the current
+window and reopens saved pages. `storage` keeps capsules locally. Review the
+[privacy policy](site/privacy/index.html) and [terms](site/terms/index.html).
 
 ## Design and provenance
 
-The art-deco “last night train” visual system and generated-art provenance are
+The product-specific art-deco transit system and generated-art provenance are
 documented in [.factory/design.md](.factory/design.md). Source artwork and its
-exact prompt are in `assets/src/`.
+prompt are in `assets/src/`.
 
 ## License
 

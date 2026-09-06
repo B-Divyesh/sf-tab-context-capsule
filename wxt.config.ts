@@ -6,7 +6,7 @@ export default defineConfig({
   outDirTemplate: 'extension',
   manifest: {
     name: 'Tab Context Capsule',
-    description: 'Seal selected tabs with their meaning, next step, and a portable handoff.',
+    description: 'Save selected tabs with notes, order, a next step, and portable exports.',
     version: '1.0.0',
     permissions: ['tabs', 'storage'],
     incognito: 'split',

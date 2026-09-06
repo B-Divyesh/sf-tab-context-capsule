@@ -26,7 +26,7 @@ panel?.addEventListener('submit', (event) => {
 
 async function verify(token: string, showToken: boolean): Promise<void> {
   const result = document.querySelector<HTMLElement>('#license-result');
-  if (result) result.textContent = 'Checking your ticket…';
+  if (result) result.textContent = 'Checking your license…';
   try {
     const response = await fetch(`${BASE}/products/${PRODUCT}/verify?license=${encodeURIComponent(token)}`, { headers: { Accept: 'application/json' } });
     if (!response.ok) throw new Error();

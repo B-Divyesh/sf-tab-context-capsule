@@ -63,7 +63,7 @@ test('390px popup keeps every tab-order control at least 44 by 44 CSS pixels', a
     await expect(popup.locator(`button[data-tab-id="${tabId}"]:not([disabled])`)).toBeFocused();
     await popup.locator('#capsule-name').fill('QA repair capsule');
     await popup.locator('#next-step').fill('Reopen this evidence later.');
-    await popup.getByRole('button', { name: 'Seal capsule' }).click();
+    await popup.getByRole('button', { name: 'Save capsule' }).click();
     await expect(popup.getByRole('heading', { name: 'Capsule library' })).toBeVisible();
     const stored = await popup.evaluate(async () => (await chrome.storage.local.get('capsules:v1'))['capsules:v1']);
     expect(stored).toEqual([expect.objectContaining({
